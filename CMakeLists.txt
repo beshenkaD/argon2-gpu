@@ -8,8 +8,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_testing()
 
-add_subdirectory(ext/argon2)
-
 add_library(argon2-gpu-common SHARED
     lib/argon2-gpu-common/argon2params.cpp
     lib/argon2-gpu-common/blake2b.cpp
