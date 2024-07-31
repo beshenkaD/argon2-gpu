@@ -10,8 +10,7 @@ namespace opencl {
 ProgramContext::ProgramContext(
         const GlobalContext *globalContext,
         const std::vector<Device> &devices,
-        Type type, Version version,
-        const std::string &kernelPath)
+        Type type, Version version)
     : globalContext(globalContext), devices(), type(type), version(version)
 {
     this->devices.reserve(devices.size());
@@ -22,7 +21,7 @@ ProgramContext::ProgramContext(
 
     program = KernelLoader::loadArgon2Program(
                 // FIXME path:
-                context, kernelPath, type, version);
+                context, "./data/kernels", type, version);
 }
 
 } // namespace opencl

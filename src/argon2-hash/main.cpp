@@ -2,6 +2,7 @@
 #include "argon2-gpu-common/argon2params.h"
 #include "argon2-opencl/device.h"
 #include "argon2-opencl/globalcontext.h"
+#include "argon2-opencl/kernelrunner.h"
 #include "argon2-opencl/processingunit.h"
 #include "argon2-opencl/programcontext.h"
 #include <cstdint>
@@ -70,18 +71,16 @@ int main() {
 
   auto context = argon2::opencl::ProgramContext(
       &global, {device}, argon2::Type::ARGON2_ID,
-      argon2::Version::ARGON2_VERSION_13, "../data/kernels");
+      argon2::Version::ARGON2_VERSION_13);
 
-  auto unit =
-      argon2::opencl::ProcessingUnit(&context, &params, &device, 1, true, false);
   std::string pw = "d00dd1afe7a55d0e1ae588e867c1addaa96bebc5fca0aff667a8293e1853c02a";
-  unit.setPassword(0, &pw, pw.size());
 
-  unit.beginProcessing();
-  unit.endProcessing();
+  auto runner = argon2::opencl::KernelRunner(&context, &params, &device, 1, true, false);
+  runner.run(1, 1);
+  runner.finish();
 
   uint8_t hashBuf[64];
-  unit.getHash(0, hashBuf);
+  params.finalize(hashBuf, runner.mapOutputMemory(0));
 
   std::cout << base64_encode(hashBuf, 64) << std::endl;
 }

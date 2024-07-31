@@ -46,5 +46,5 @@ add_executable(argon2-hash
 )
 target_include_directories(argon2-hash PRIVATE src/argon2-hash)
 target_link_libraries(argon2-hash
-    argon2-opencl argon2 -lOpenCL
+    argon2-opencl -lOpenCL
 )

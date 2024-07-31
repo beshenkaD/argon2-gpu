@@ -32,8 +32,7 @@ public:
     ProgramContext(
             const GlobalContext *globalContext,
             const std::vector<Device> &devices,
-            Type type, Version version,
-            const std::string &kernelPath = "./data/kernels");
+            Type type, Version version);
 };
 
 } // namespace opencl

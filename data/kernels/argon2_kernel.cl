@@ -1,4 +1,4 @@
-/* C compatibility For dumb IDEs: */
+R"(/* C compatibility For dumb IDEs: */
 #ifndef __OPENCL_VERSION__
 #ifndef __cplusplus
 typedef int bool;
@@ -867,3 +867,4 @@ __kernel void argon2_kernel_oneshot(
         mem_curr = mem_lane;
     }
 }
+)"
