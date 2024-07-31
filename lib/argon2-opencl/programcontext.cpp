@@ -1,6 +1,8 @@
 #include "programcontext.h"
 
 #include "kernelloader.h"
+#include <exception>
+#include <iostream>
 
 namespace argon2 {
 namespace opencl {
@@ -8,7 +10,8 @@ namespace opencl {
 ProgramContext::ProgramContext(
         const GlobalContext *globalContext,
         const std::vector<Device> &devices,
-        Type type, Version version)
+        Type type, Version version,
+        const std::string &kernelPath)
     : globalContext(globalContext), devices(), type(type), version(version)
 {
     this->devices.reserve(devices.size());
@@ -19,7 +22,7 @@ ProgramContext::ProgramContext(
 
     program = KernelLoader::loadArgon2Program(
                 // FIXME path:
-                context, "./data/kernels", type, version);
+                context, kernelPath, type, version);
 }
 
 } // namespace opencl

@@ -39,3 +39,5 @@ Makefile
 
 .idea/
 ext/
+.cache
+build
