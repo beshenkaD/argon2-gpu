@@ -15,7 +15,7 @@ static bool isPowerOfTwo(std::uint32_t x)
 
 ProcessingUnit::ProcessingUnit(
         const ProgramContext *programContext, const Argon2Params *params,
-        const Device *device, std::size_t batchSize,
+        const Device *device, size_t batchSize,
         bool bySegment, bool precomputeRefs)
     : programContext(programContext), params(params), device(device),
       runner(programContext, params, device, batchSize, bySegment,
@@ -24,7 +24,7 @@ ProcessingUnit::ProcessingUnit(
       bestJobsPerBlock(runner.getMinJobsPerBlock())
 {
     /* pre-fill first blocks with pseudo-random data: */
-    for (std::size_t i = 0; i < batchSize; i++) {
+    for (size_t i = 0; i < batchSize; i++) {
         setPassword(i, NULL, 0);
     }
 
@@ -107,8 +107,8 @@ ProcessingUnit::ProcessingUnit(
     }
 }
 
-void ProcessingUnit::setPassword(std::size_t index, const void *pw,
-                                 std::size_t pwSize)
+void ProcessingUnit::setPassword(size_t index, const void *pw,
+                                 size_t pwSize)
 {
     void *memory = runner.mapInputMemory(index);
     params->fillFirstBlocks(memory, pw, pwSize,
@@ -117,7 +117,7 @@ void ProcessingUnit::setPassword(std::size_t index, const void *pw,
     runner.unmapInputMemory(memory);
 }
 
-void ProcessingUnit::getHash(std::size_t index, void *hash)
+void ProcessingUnit::getHash(size_t index, void *hash)
 {
     void *memory = runner.mapOutputMemory(index);
     params->finalize(hash, memory);

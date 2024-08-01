@@ -1,6 +1,7 @@
 #ifndef ARGON2_ARGON2PARAMS_H
 #define ARGON2_ARGON2PARAMS_H
 
+#include <cstddef>
 #include <cstdint>
 
 #include "argon2-common.h"
@@ -16,10 +17,10 @@ private:
 
     std::uint32_t segmentBlocks;
 
-    static void digestLong(void *out, std::size_t outLen,
-                           const void *in, std::size_t inLen);
+    static void digestLong(void *out, size_t outLen,
+                           const void *in, size_t inLen);
 
-    void initialHash(void *out, const void *pwd, std::size_t pwdLen,
+    void initialHash(void *out, const void *pwd, size_t pwdLen,
                      Type type, Version version) const;
 
 public:
@@ -43,18 +44,18 @@ public:
         return segmentBlocks * ARGON2_SYNC_POINTS;
     }
     std::uint32_t getMemoryBlocks() const { return getLaneBlocks() * lanes; }
-    std::size_t getMemorySize() const {
-        return static_cast<std::size_t>(getMemoryBlocks()) * ARGON2_BLOCK_SIZE;
+    size_t getMemorySize() const {
+        return static_cast<size_t>(getMemoryBlocks()) * ARGON2_BLOCK_SIZE;
     }
 
     Argon2Params(
-            std::size_t outLen,
-            const void *salt, std::size_t saltLen,
-            const void *secret, std::size_t secretLen,
-            const void *ad, std::size_t adLen,
-            std::size_t t_cost, std::size_t m_cost, std::size_t lanes);
+            size_t outLen,
+            const void *salt, size_t saltLen,
+            const void *secret, size_t secretLen,
+            const void *ad, size_t adLen,
+            size_t t_cost, size_t m_cost, size_t lanes);
 
-    void fillFirstBlocks(void *memory, const void *pwd, std::size_t pwdLen,
+    void fillFirstBlocks(void *memory, const void *pwd, size_t pwdLen,
                          Type type, Version version) const;
 
     void finalize(void *out, const void *memory) const;

@@ -79,7 +79,7 @@ static void store64(void *dst, std::uint64_t v)
     *out++ = static_cast<std::uint8_t>(v);
 }
 
-void Blake2b::init(std::size_t outlen)
+void Blake2b::init(size_t outlen)
 {
     t[1] = t[0] = 0;
     bufLen = 0;
@@ -160,13 +160,13 @@ void Blake2b::incrementCounter(std::uint64_t inc)
     t[1] += (t[0] < inc);
 }
 
-void Blake2b::update(const void *in, std::size_t inLen)
+void Blake2b::update(const void *in, size_t inLen)
 {
     auto bin = static_cast<const std::uint8_t *>(in);
 
     if (bufLen + inLen > BLOCK_BYTES) {
-        std::size_t have = bufLen;
-        std::size_t left = BLOCK_BYTES - have;
+        size_t have = bufLen;
+        size_t left = BLOCK_BYTES - have;
         std::memcpy(buf + have, bin, left);
 
         incrementCounter(BLOCK_BYTES);
@@ -187,7 +187,7 @@ void Blake2b::update(const void *in, std::size_t inLen)
     bufLen += inLen;
 }
 
-void Blake2b::final(void *out, std::size_t outLen)
+void Blake2b::final(void *out, size_t outLen)
 {
     std::uint8_t buffer[OUT_BYTES] = {0};
 

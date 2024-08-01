@@ -17,7 +17,7 @@ enum {
 
 KernelRunner::KernelRunner(const ProgramContext *programContext,
                            const Argon2Params *params, const Device *device,
-                           std::size_t batchSize, bool bySegment, bool precompute)
+                           size_t batchSize, bool bySegment, bool precompute)
     : programContext(programContext), params(params), batchSize(batchSize),
       bySegment(bySegment), precompute(precompute),
       memorySize(params->getMemorySize() * batchSize)
@@ -44,7 +44,7 @@ KernelRunner::KernelRunner(const ProgramContext *programContext,
                 ? lanes * (ARGON2_SYNC_POINTS / 2)
                 : passes * lanes * ARGON2_SYNC_POINTS;
 
-        std::size_t refsSize = segments * segmentBlocks * sizeof(cl_uint) * 2;
+        size_t refsSize = segments * segmentBlocks * sizeof(cl_uint) * 2;
 
 #ifndef NDEBUG
         std::cerr << "[INFO] Allocating " << refsSize << " bytes for refs..."
@@ -94,7 +94,7 @@ void KernelRunner::precomputeRefs()
             ? lanes * (ARGON2_SYNC_POINTS / 2)
             : passes * lanes * ARGON2_SYNC_POINTS;
 
-    std::size_t shmemSize = THREADS_PER_LANE * sizeof(cl_uint) * 2;
+    size_t shmemSize = THREADS_PER_LANE * sizeof(cl_uint) * 2;
 
     cl::Kernel kernel = cl::Kernel(programContext->getProgram(),
                                    "argon2_precompute_kernel");
@@ -110,10 +110,10 @@ void KernelRunner::precomputeRefs()
     queue.finish();
 }
 
-void *KernelRunner::mapInputMemory(std::size_t jobId)
+void *KernelRunner::mapInputMemory(size_t jobId)
 {
-    std::size_t memorySize = params->getMemorySize();
-    std::size_t mappedSize = params->getLanes() * 2 * ARGON2_BLOCK_SIZE;
+    size_t memorySize = params->getMemorySize();
+    size_t mappedSize = params->getLanes() * 2 * ARGON2_BLOCK_SIZE;
     return queue.enqueueMapBuffer(memoryBuffer, true, CL_MAP_WRITE,
                                   memorySize * jobId, mappedSize);
 }
@@ -123,12 +123,12 @@ void KernelRunner::unmapInputMemory(void *memory)
     queue.enqueueUnmapMemObject(memoryBuffer, memory);
 }
 
-void *KernelRunner::mapOutputMemory(std::size_t jobId)
+void *KernelRunner::mapOutputMemory(size_t jobId)
 {
-    std::size_t memorySize = params->getMemorySize();
-    std::size_t mappedSize = static_cast<std::size_t>(params->getLanes())
+    size_t memorySize = params->getMemorySize();
+    size_t mappedSize = static_cast<size_t>(params->getLanes())
             * ARGON2_BLOCK_SIZE;
-    std::size_t mappedOffset = memorySize * (jobId + 1) - mappedSize;
+    size_t mappedOffset = memorySize * (jobId + 1) - mappedSize;
     return queue.enqueueMapBuffer(memoryBuffer, true, CL_MAP_READ,
                                   mappedOffset, mappedSize);
 }
@@ -162,7 +162,7 @@ void KernelRunner::run(std::uint32_t lanesPerBlock, std::uint32_t jobsPerBlock)
 
     queue.enqueueMarker(&start);
 
-    std::size_t shmemSize = THREADS_PER_LANE * lanesPerBlock * jobsPerBlock
+    size_t shmemSize = THREADS_PER_LANE * lanesPerBlock * jobsPerBlock
             * sizeof(cl_uint) * 2;
     kernel.setArg<cl::LocalSpaceArg>(0, { shmemSize });
     if (bySegment) {

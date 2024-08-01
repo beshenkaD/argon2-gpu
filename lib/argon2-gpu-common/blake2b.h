@@ -17,7 +17,7 @@ private:
     std::uint64_t h[8];
     std::uint64_t t[2];
     std::uint8_t buf[BLOCK_BYTES];
-    std::size_t bufLen;
+    size_t bufLen;
 
     void compress(const void *block, std::uint64_t f0);
     void incrementCounter(std::uint64_t inc);
@@ -25,9 +25,9 @@ private:
 public:
     Blake2b() : h(), t(), buf(), bufLen(0) { }
 
-    void init(std::size_t outlen);
-    void update(const void *in, std::size_t inLen);
-    void final(void *out, std::size_t outLen);
+    void init(size_t outlen);
+    void update(const void *in, size_t inLen);
+    void final(void *out, size_t outLen);
 };
 
 } // namespace argon2

@@ -20,15 +20,15 @@ private:
     std::uint32_t bestJobsPerBlock;
 
 public:
-    std::size_t getBatchSize() const { return runner.getBatchSize(); }
+    size_t getBatchSize() const { return runner.getBatchSize(); }
 
     ProcessingUnit(
             const ProgramContext *programContext, const Argon2Params *params,
-            const Device *device, std::size_t batchSize,
+            const Device *device, size_t batchSize,
             bool bySegment = true, bool precomputeRefs = false);
 
-    void setPassword(std::size_t index, const void *pw, std::size_t pwSize);
-    void getHash(std::size_t index, void *hash);
+    void setPassword(size_t index, const void *pw, size_t pwSize);
+    void getHash(size_t index, void *hash);
 
     void beginProcessing();
     void endProcessing();

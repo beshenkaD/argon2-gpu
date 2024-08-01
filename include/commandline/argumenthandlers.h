@@ -30,7 +30,7 @@ struct NumericParsingTraits<int>
 {
     static constexpr const char *typeName = "int";
 
-    static int parse(const std::string &arg, std::size_t *endpos)
+    static int parse(const std::string &arg, size_t *endpos)
     {
         return std::stoi(arg, endpos);
     }
@@ -41,7 +41,7 @@ struct NumericParsingTraits<long>
 {
     static constexpr const char *typeName = "long";
 
-    static long parse(const std::string &arg, std::size_t *endpos)
+    static long parse(const std::string &arg, size_t *endpos)
     {
         return std::stol(arg, endpos);
     }
@@ -52,7 +52,7 @@ struct NumericParsingTraits<unsigned long>
 {
     static constexpr const char *typeName = "unsigned long";
 
-    static unsigned long parse(const std::string &arg, std::size_t *endpos)
+    static unsigned long parse(const std::string &arg, size_t *endpos)
     {
         return std::stoul(arg, endpos);
     }
@@ -63,7 +63,7 @@ struct NumericParsingTraits<long long>
 {
     static constexpr const char *typeName = "long long";
 
-    static long long parse(const std::string &arg, std::size_t *endpos)
+    static long long parse(const std::string &arg, size_t *endpos)
     {
         return std::stoll(arg, endpos);
     }
@@ -74,7 +74,7 @@ struct NumericParsingTraits<unsigned long long>
 {
     static constexpr const char *typeName = "unsigned long long";
 
-    static unsigned long long parse(const std::string &arg, std::size_t *endpos)
+    static unsigned long long parse(const std::string &arg, size_t *endpos)
     {
         return std::stoull(arg, endpos);
     }
@@ -85,7 +85,7 @@ struct NumericParsingTraits<float>
 {
     static constexpr const char *typeName = "float";
 
-    static float parse(const std::string &arg, std::size_t *endpos)
+    static float parse(const std::string &arg, size_t *endpos)
     {
         return std::stof(arg, endpos);
     }
@@ -96,7 +96,7 @@ struct NumericParsingTraits<double>
 {
     static constexpr const char *typeName = "double";
 
-    static double parse(const std::string &arg, std::size_t *endpos)
+    static double parse(const std::string &arg, size_t *endpos)
     {
         return std::stod(arg, endpos);
     }
@@ -107,7 +107,7 @@ struct NumericParsingTraits<long double>
 {
     static constexpr const char *typeName = "long double";
 
-    static long double parse(const std::string &arg, std::size_t *endpos)
+    static long double parse(const std::string &arg, size_t *endpos)
     {
         return std::stold(arg, endpos);
     }
@@ -118,7 +118,7 @@ static std::function<typename ArgumentOption<TState>::Callback>
     makeNumericHandler(std::function<void(TState &, TNum)> callback)
 {
     return [=] (TState &state, const std::string &arg) {
-        std::size_t end;
+        size_t end;
         TNum ret;
         try {
             ret = NumericParsingTraits<TNum>::parse(arg, &end);
@@ -163,7 +163,7 @@ makeArgumentWithOptionsHandler(
 {
     return [=] (TState &state, const std::string &arg) {
         std::string name, opts;
-        std::size_t delimPos = arg.find(delim);
+        size_t delimPos = arg.find(delim);
         if (delimPos == std::string::npos) {
             name.assign(arg);
             opts.clear();
