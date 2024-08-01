@@ -15,20 +15,9 @@ cl::Program KernelLoader::loadArgon2Program(const cl::Context &context,
                                             const std::string &sourceDirectory,
                                             Type type, Version version,
                                             bool debug) {
-  // std::string sourcePath = sourceDirectory + "/argon2_kernel.cl";
   std::string sourceText = prog;
   std::stringstream buildOpts;
-  // {
-  //     std::ifstream sourceFile { sourcePath };
-  //     sourceText = {
-  //         std::istreambuf_iterator<char>(sourceFile),
-  //         std::istreambuf_iterator<char>()
-  //     };
-  // }
 
-  // if (debug) {
-  //     buildOpts << "-g -s \"" << sourcePath << "\"" << " ";
-  // }
   buildOpts << "-DARGON2_TYPE=" << type << " ";
   buildOpts << "-DARGON2_VERSION=" << version << " ";
 
