@@ -29,10 +29,12 @@ add_library(argon2-opencl SHARED
     lib/argon2-opencl/processingunit.cpp
     lib/argon2-opencl/kernelrunner.cpp
 )
+
 target_include_directories(argon2-opencl INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+
 target_include_directories(argon2-opencl PRIVATE
     include/argon2-opencl
     lib/argon2-opencl
@@ -41,6 +43,13 @@ target_include_directories(argon2-opencl PRIVATE
 add_subdirectory(3rdparty/libopencl-stub)
 include_directories(3rdparty/libopencl-stub/include)
 
+target_compile_definitions(OpenCL PUBLIC
+    CL_HPP_TARGET_OPENCL_VERSION=120
+    CL_HPP_MINIMUM_OPENCL_VERSION=100
+    CL_TARGET_OPENCL_VERSION=120
+    CL_MINIMUM_OPENCL_VERSION=100
+)
+
 target_link_libraries(argon2-opencl
     argon2-gpu-common OpenCL
 )
@@ -48,6 +57,7 @@ target_link_libraries(argon2-opencl
 add_executable(argon2-hash
     src/argon2-hash/main.cpp
 )
+
 target_include_directories(argon2-hash PRIVATE src/argon2-hash)
 target_link_libraries(argon2-hash
     argon2-opencl OpenCL
