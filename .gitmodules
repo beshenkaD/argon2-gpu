@@ -1,6 +1,4 @@
-[submodule "argon2-lib"]
-	path = ext/argon2
-	url = https://github.com/WOnder93/argon2.git
 [submodule "3rdparty/libopencl-stub"]
 	path = 3rdparty/libopencl-stub
-	url = git@github.com:krrishnarraj/libopencl-stub.git
+    url = https://github.com/krrishnarraj/libopencl-stub.git
+    ignore = dirty
